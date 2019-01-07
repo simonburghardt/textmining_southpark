@@ -6,7 +6,7 @@ search_url = "http://transcripts.wikia.com/wiki/Cartman_Gets_an_Anal_Probe"
 
 result = requests.get(search_url)
 html = result.content.decode("utf-8")
-soup = BeautifulSoup(html)
+soup = BeautifulSoup(html, features="html.parser")
 
 print(result.url)
 
