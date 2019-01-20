@@ -62,7 +62,7 @@ def filter_list(chunk):
 # Generiert ein JSON File aus einem Dictionary
 def dict_to_json(parsed_data):
 
-    fh = open('data/' + "cursewords" , mode="w", encoding="utf8")
+    fh = open('data/' + "cursewords.json", mode="w", encoding="utf8")
     json.dump(parsed_data, fh, indent=4)
 
     return True
