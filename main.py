@@ -6,6 +6,7 @@ from collections import Counter
 global header, data_dict, data_list, curseword_dict
 
 csv_file = "data/season1.csv"
+csv_file1 = "data/all-seasons.csv"
 diejson = "data/cursewords.json"
 
 data_list  = []
@@ -13,15 +14,15 @@ curseword_dict = {}
 
 
 
-#Diese Funktion lädt die Daten aus unserer CSV-Datei in eine Liste.
-#Innerhalb der Liste werden Dictionaries für die einzelnen Redebeiträge gespeichert.
-#Beispiel Zeile 1:
-#OrderedDict([('Season', '1'), ('Episode', '1'), ('Character', 'Boys'),
-# ('Line', "School day, school day, teacher's golden ru...\n")])
+# Diese Funktion lädt die Daten aus unserer CSV-Datei in eine Liste.
+# Innerhalb der Liste werden Dictionaries für die einzelnen Redebeiträge gespeichert.
+# Beispiel Zeile 1:
+# OrderedDict([('Season', '1'), ('Episode', '1'), ('Character', 'Boys'),('Line', "School day, school day,
+# teacher's golden ru...\n")])
 def load_data():
     # Läd die Datei und speichert den Inhalt in data_dict und die Feldnamen in Header
 
-    with open(csv_file, 'r+', encoding='utf-8') as f:
+    with open(csv_file1, 'r+', encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter=',')
         header = reader.fieldnames
 
@@ -78,6 +79,7 @@ def get_speakers(inp):
 # Gibt ein Dictionary zurück mit Speaker und dem kompletten Text
 # {"Cartman" : gesamtertext}
 def get_whole_text_per_speaker(inp_dict, speaker):
+
     whole_text_speaker = {}
     alles_zusammen = ""
 
@@ -105,17 +107,17 @@ def get_tokens_per_speaker(inp):
 
 # Findet heraus, welcher Speaker welche Tokens am öftesten sagt
 # Übergeben wir eine Liste mit allen Speakern
-def count_most_tokens_per_speaker(inp):
+def count_tokens_per_speaker(inp_list):
 
     speaker_tokens = {}
 
-    for speaker in inp:
+    for speaker in inp_list:
         text_of_speaker = get_whole_text_per_speaker(data_list, speaker)
         speaker_tokens[speaker] = len(tokenize(text_of_speaker[speaker]))
 
     sort_dict = sorted(speaker_tokens.items(), key=lambda x: x[1], reverse=True)
 
-    return sort_dict
+    return speaker_tokens
 
 
 # Lädt unser Schimpfwort JSON und speichert die in einem Dictionary ab
@@ -129,26 +131,37 @@ def loadjson(diejson):
 # Zählt, welcher Speaker wie oft geflucht hat
 def count_cursewords_per_speaker(speaker_liste):
 
-    counter = 0
+    token_counter = 0
+    swear_counter = 0
     curseword_dict = loadjson(diejson)
 
     for speaker in speaker_liste:
 
         text_of_speaker = get_whole_text_per_speaker(data_list, speaker)
         text_tokens = tokenize(text_of_speaker[speaker])
+        token_counter = len(text_tokens)
 
         for key, value in curseword_dict.items():
             for schimpfwort in value:
-                if schimpfwort in text_tokens:
-                    counter = counter + 1
+                for token in text_tokens:
+                    if schimpfwort == token:
+                        swear_counter = swear_counter + 1
 
-        print(speaker + " hat " + str(counter) + " Schimpfwörter gesagt")
-        counter = 0
+        rate = swear_counter / token_counter
+
+        print(speaker + " hat " + str(swear_counter) + " Schimpfwörter gesagt mit einer Rate von " + str(rate))
+        swear_counter = 0
+        token_counter = 0
 
 
 load_data()
 preprocess(data_list)
 count_anteile = count_redebeitraege(data_list)
-print(get_whole_text_per_speaker(data_list, "Jesus"))
+all_speakers = get_speakers(data_list)
+
+
+count_cursewords_per_speaker(all_speakers)
+
+#print(get_whole_text_per_speaker(data_list, "Jesus"))
 
 
