@@ -26,7 +26,7 @@ dict_groupedByEpisode = dict(data=dict_groupedByEpisode)
 # print(json.dumps(dict_groupedByEpisode, indent=4))
 
 with open('data/dataByEpisode.json', 'w') as fp:
-    json.dump(dict_groupedByEpisode, fp)
+    json.dump(dict_groupedByEpisode, fp, indent=4)
 
 
 ####################################
@@ -53,7 +53,7 @@ dict_groupedBySeason = dict(data=dict_groupedBySeason)
 # print(json.dumps(dict_groupedBySeason, indent=4))
 
 with open('data/dataBySeason.json', 'w') as fp:
-    json.dump(dict_groupedBySeason, fp)
+    json.dump(dict_groupedBySeason, fp, indent=4)
 
 ###########################
 
@@ -79,5 +79,5 @@ dict_groupedByCharacter = dict(data=dict_groupedByCharacter)
 # print(json.dumps(dict_groupedByCharacter, indent=4))
 
 with open('data/dataByCharacter.json', 'w') as fp:
-    json.dump(dict_groupedByCharacter, fp)
+    json.dump(dict_groupedByCharacter, fp, indent=4)
 
