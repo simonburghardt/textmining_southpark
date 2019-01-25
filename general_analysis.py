@@ -16,8 +16,7 @@ top20 = ["Cartman", "Stan", "Kyle", "Randy", "Butters", "Mr. Garrison", "Chef", 
          "Narrator", "Stephen", "Kenny"]
 
 
-# Lädt unser Schimpfwort JSON und speichert die in einem Dictionary ab
-# z.B. { "a" : ["asshole", "asscow"], "b" : ["bitch", "blowjob"], etc...}
+# Lädt ein JSON file in ein Dictionary
 def load_json(data_title):
     fh = open(data_title, mode="r", encoding="utf8")
     ret_dict = json.load(fh)
@@ -145,10 +144,29 @@ def safe_output(dateiname, output_dictionary):
         json.dump(output_dictionary, fp, indent=4)
 
 
+def topcurswordsoverall(data):
 
+    ret_dict = {}
+
+    for char_data in data:
+        for key in char_data:
+            single_swear_dict = char_data[key]
+            for schimpfwort in single_swear_dict:
+                if schimpfwort in ret_dict:
+                    ret_dict[schimpfwort] = ret_dict[schimpfwort] + single_swear_dict[schimpfwort]
+                else:
+                    ret_dict[schimpfwort] = single_swear_dict[schimpfwort]
+
+    sort_dict = dict(sorted(ret_dict.items(), key=lambda x: x[1], reverse=True))
+
+    return sort_dict
+
+
+# Lädt die Daten pro Charakter in ein Dictionary
 character_data = load_json(databycharacter)
+curseListsByCharacter = load_json("output/CurseListByCharacter.json")
 
-#Wer flucht am meisten?
+# Wer flucht am meisten?
 # cursecount = get_cursewords(top20, "Zählen")
 # safe_output("CurseDataByCharacter.json", cursecount)
 
@@ -156,6 +174,9 @@ character_data = load_json(databycharacter)
 # Wer sagt welche Wörter am meisten?
 # curse_liste = get_cursewords(top20, "liste")
 # safe_output("CurseListByCharacter.json", curse_liste)
+
+# top10 = topcurswordsoverall(curseListsByCharacter)
+# safe_output("top10cursewords.json", top10)
 
 
 # cursewords_per_person = get_curseword_count(top20)
