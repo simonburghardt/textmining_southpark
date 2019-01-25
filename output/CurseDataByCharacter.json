@@ -1,0 +1,142 @@
+[
+    {
+        "Cartman": {
+            "Tokens gesamt": 74886,
+            "Swearwords said": 1354,
+            "Swearrate per word": "1.8080816173917689%"
+        }
+    },
+    {
+        "Stan": {
+            "Tokens gesamt": 39035,
+            "Swearwords said": 547,
+            "Swearrate per word": "1.4013065197899321%"
+        }
+    },
+    {
+        "Kyle": {
+            "Tokens gesamt": 35551,
+            "Swearwords said": 620,
+            "Swearrate per word": "1.7439734465978451%"
+        }
+    },
+    {
+        "Randy": {
+            "Tokens gesamt": 18021,
+            "Swearwords said": 184,
+            "Swearrate per word": "1.0210310193662948%"
+        }
+    },
+    {
+        "Butters": {
+            "Tokens gesamt": 17515,
+            "Swearwords said": 118,
+            "Swearrate per word": "0.6737082500713674%"
+        }
+    },
+    {
+        "Mr. Garrison": {
+            "Tokens gesamt": 8702,
+            "Swearwords said": 184,
+            "Swearrate per word": "2.1144564467938403%"
+        }
+    },
+    {
+        "Chef": {
+            "Tokens gesamt": 6378,
+            "Swearwords said": 108,
+            "Swearrate per word": "1.6933207902163687%"
+        }
+    },
+    {
+        "Mr. Mackey": {
+            "Tokens gesamt": 6351,
+            "Swearwords said": 61,
+            "Swearrate per word": "0.9604786647772005%"
+        }
+    },
+    {
+        "Jimmy": {
+            "Tokens gesamt": 4950,
+            "Swearwords said": 48,
+            "Swearrate per word": "0.9696969696969697%"
+        }
+    },
+    {
+        "Sharon": {
+            "Tokens gesamt": 4793,
+            "Swearwords said": 29,
+            "Swearrate per word": "0.6050490298351763%"
+        }
+    },
+    {
+        "Announcer": {
+            "Tokens gesamt": 4511,
+            "Swearwords said": 32,
+            "Swearrate per word": "0.7093770782531589%"
+        }
+    },
+    {
+        "Jimbo": {
+            "Tokens gesamt": 4095,
+            "Swearwords said": 61,
+            "Swearrate per word": "1.4896214896214897%"
+        }
+    },
+    {
+        "Gerald": {
+            "Tokens gesamt": 3717,
+            "Swearwords said": 27,
+            "Swearrate per word": "0.7263922518159807%"
+        }
+    },
+    {
+        "Wendy": {
+            "Tokens gesamt": 3382,
+            "Swearwords said": 41,
+            "Swearrate per word": "1.212300413956239%"
+        }
+    },
+    {
+        "Sheila": {
+            "Tokens gesamt": 3199,
+            "Swearwords said": 20,
+            "Swearrate per word": "0.6251953735542357%"
+        }
+    },
+    {
+        "Liane": {
+            "Tokens gesamt": 2978,
+            "Swearwords said": 3,
+            "Swearrate per word": "0.10073875083948958%"
+        }
+    },
+    {
+        "Mrs. Garrison": {
+            "Tokens gesamt": 2705,
+            "Swearwords said": 67,
+            "Swearrate per word": "2.476894639556377%"
+        }
+    },
+    {
+        "Narrator": {
+            "Tokens gesamt": 2681,
+            "Swearwords said": 26,
+            "Swearrate per word": "0.969787392763894%"
+        }
+    },
+    {
+        "Stephen": {
+            "Tokens gesamt": 2552,
+            "Swearwords said": 15,
+            "Swearrate per word": "0.5877742946708464%"
+        }
+    },
+    {
+        "Kenny": {
+            "Tokens gesamt": 2425,
+            "Swearwords said": 133,
+            "Swearrate per word": "5.484536082474227%"
+        }
+    }
+]
