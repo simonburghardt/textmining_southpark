@@ -1,12 +1,9 @@
-#import main3
 import json
 import string
 import nltk
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from collections import Counter
-import re
-#import main
 
 
 cursejson = "data/cursewords.json"
@@ -59,9 +56,8 @@ def count_redebeitraege(input_data):
 
 
 # Zählt alle Schimpfwörte, die eine Person sagt
-def syndicate_swearing(charcter_data_dict, speaker):
+def syndicate_swearing(charcter_data_dict, speaker, curselist):
 
-    curselist = create_curse_list()
     data = charcter_data_dict["data"]
     char_data = {}
     counter = 0
@@ -87,9 +83,8 @@ def syndicate_swearing(charcter_data_dict, speaker):
 
 # Kreiirt eine Swearword Liste für den übergebenen Speaker und zählt, wie oft er welches
 # Schimpfword gesagt hat
-def create_swearwordlist_per_person(charcter_data_dict, speaker):
+def create_swearwordlist_per_person(charcter_data_dict, speaker, curselist):
 
-    curselist = create_curse_list()
     data = charcter_data_dict["data"]
     char_data = {}
     swearlist = []
@@ -121,18 +116,18 @@ def create_curse_list():
 
 # Kreiirt ein Dictionary das den Speaker und die Anzahl der Schimpfwörter, die diese
 # Person gesagt hat
-def get_cursewords(speaker_list, param):
+def get_cursewords(speaker_list, param, curselist):
 
     swearwords_per_speaker = []
 
     for speaker in speaker_list:
 
         if param == "Zählen":
-            character_swear = syndicate_swearing(character_data, speaker)
+            character_swear = syndicate_swearing(character_data, speaker, curselist)
             swearwords_per_speaker.append(character_swear)
 
         if param == "liste":
-            character_sweardict = create_swearwordlist_per_person(character_data, speaker)
+            character_sweardict = create_swearwordlist_per_person(character_data, speaker, curselist)
             swearwords_per_speaker.append(character_sweardict)
 
 
@@ -165,14 +160,15 @@ def topcurswordsoverall(data):
 # Lädt die Daten pro Charakter in ein Dictionary
 character_data = load_json(databycharacter)
 curseListsByCharacter = load_json("output/CurseListByCharacter.json")
+cursewordlist = create_curse_list()
 
 # Wer flucht am meisten?
-# cursecount = get_cursewords(top20, "Zählen")
+# cursecount = get_cursewords(top20, "Zählen", cursewordlist)
 # safe_output("CurseDataByCharacter.json", cursecount)
 
 
 # Wer sagt welche Wörter am meisten?
-# curse_liste = get_cursewords(top20, "liste")
+# curse_liste = get_cursewords(top20, "liste", cursewordlist)
 # safe_output("CurseListByCharacter.json", curse_liste)
 
 # top10 = topcurswordsoverall(curseListsByCharacter)
