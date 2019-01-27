@@ -138,5 +138,67 @@ def schimpfwortRatePerSeason():
     return swearRatePerSeason
 
 
-totalSwearwordRatePerSeason = [schimpfwortRatePerSeason()]
-general_analysis.safe_output("schimpfwortRatePerSeason.json", totalSwearwordRatePerSeason)
+# totalSwearwordRatePerSeason = [schimpfwortRatePerSeason()]
+# general_analysis.safe_output("schimpfwortRatePerSeason.json", totalSwearwordRatePerSeason)
+
+
+swearwordspercharacterperseason = general_analysis.load_json("output/SwearwordsPerSeason.json")
+
+
+def swearwordrate_per_character_per_season(charcter_data_dict, speaker, curselist):
+
+    season = 1
+    rates = {}
+
+    while season < 19:
+        swear_count = season_swearwords_character(speaker, curselist, season)
+        token_count = count_tokens(speaker, charcter_data_dict, season)
+        if (token_count == 0):
+            swearrate = 0
+        else:
+            swearrate = (swear_count / token_count) * 100
+        print(swearrate)
+        rates["Season " + str(season)] = swearrate
+        season = season + 1
+
+    return rates
+
+
+def season_swearwords_character(speaker, curselist, season):
+
+    counter = 0
+    for entry in curselist:
+            for spek in entry:
+                if spek == speaker:
+                    for seas in entry[spek]:
+                        if seas == "Season " + str(season):
+                            for key in entry[spek][seas]:
+                                counter = counter + entry[spek][seas][key]
+
+    return counter
+
+def count_tokens(speaker, data_dict, season):
+
+    data = data_dict["data"]
+    counter = 0
+
+    for entry in data:
+        akt_season = entry["Season"]
+
+        if (entry["Character"] == speaker and akt_season == str(season)):
+            for beitrag in entry["Line"]:
+                text_tokens = general_analysis.tokenize_and_stem(beitrag)
+                for token in text_tokens:
+                    counter = counter + 1
+    return counter
+
+
+# swearrates = {}
+
+# for speaker in general_analysis.top20:
+#    rates = swearwordrate_per_character_per_season(databyepisode, speaker, swearwordspercharacterperseason)
+#    print(rates)
+#    swearrates[speaker] = rates
+
+
+# general_analysis.safe_output("SwearRatePerCharacterPerSeason.json", swearrates)
