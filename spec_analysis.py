@@ -50,7 +50,7 @@ def create_swearwordlist_per_personandseason(charcter_data_dict, speaker, cursel
 ##################
 
 
-def create_swearlist_per_season (season_data_dict, curselist, speakerlist) :
+def create_swearlist_per_season(season_data_dict, curselist, speakerlist) :
 
     data = season_data_dict["data"]
     swearlist = []
