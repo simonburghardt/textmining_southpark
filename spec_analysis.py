@@ -76,8 +76,67 @@ def create_swearlist_per_season(season_data_dict, curselist, speakerlist) :
     return season_data
 
 
-seasonCursewordliste = [create_swearlist_per_season(dataBySeason, cursewordlist, general_analysis.top20)]
+#seasonCursewordliste = [create_swearlist_per_season(dataBySeason, cursewordlist, general_analysis.top20)]
+#general_analysis.safe_output("SwearwordsPerSeason2.json", seasonCursewordliste)
 
-general_analysis.safe_output("SwearwordsPerSeason2.json", seasonCursewordliste)
+
+################
 
 
+def swearwordsPerSeason():
+    with open("output/SwearwordsPerSeason2.json") as f:
+        dataSwearwordsPerSeason2 = json.load(f)
+
+    seasonnumber = 1
+    seasonTotalSwearwords = 0
+    seasonSwearData = {}
+
+    while seasonnumber < 2:
+        for element in dataSwearwordsPerSeason2:
+            for value in element:
+                for schimpfwort in element[value]:
+                    seasonTotalSwearwords = seasonTotalSwearwords + element[value][schimpfwort]
+                    seasonnumber = seasonnumber + 1
+                seasonSwearData[value] = seasonTotalSwearwords
+                seasonTotalSwearwords = 0
+
+    return seasonSwearData
+
+
+#totalSwearwordPerSeason = [swearwordsPerSeason()]
+#general_analysis.safe_output("totalSwearwordPerSeason.json", totalSwearwordPerSeason)
+
+#####################
+
+def count_tokens2(data_dict, season):
+
+    data = data_dict["data"]
+    counter = 0
+
+    for entry in data:
+        akt_season = entry["Season"]
+
+        if akt_season == str(season) and entry["Character"] in general_analysis.top20:
+            for beitrag in entry["Line"]:
+                text_tokens = general_analysis.tokenize_and_stem(beitrag)
+                for token in text_tokens:
+                    counter = counter + 1
+    return counter
+
+
+def schimpfwortRatePerSeason():
+    with open("output/totalSwearwordPerSeason.json") as f:
+        swearwordPerSeason = json.load(f)
+    season = 1
+    swearRatePerSeason = {}
+
+    for element in swearwordPerSeason:
+        for key in element:
+            swearRatePerSeason[key] = element[key] / count_tokens2(databyepisode, season) * 100
+        season = season + 1
+
+    return swearRatePerSeason
+
+
+totalSwearwordRatePerSeason = [schimpfwortRatePerSeason()]
+general_analysis.safe_output("schimpfwortRatePerSeason.json", totalSwearwordRatePerSeason)
