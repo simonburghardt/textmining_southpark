@@ -7,6 +7,7 @@ from nltk.stem.porter import PorterStemmer
 from collections import Counter
 
 databyepisode = general_analysis.load_json("data/dataByEpisode.json")
+dataBySeason = general_analysis.load_json("data/dataBySeason.json")
 cursewordlist = general_analysis.create_curse_list()
 swearperseason = general_analysis.load_json("output/SwearwordsPerSeason.json")
 
@@ -39,13 +40,44 @@ def create_swearwordlist_per_personandseason(charcter_data_dict, speaker, cursel
     return character_data
 
 
+#liste = []
+#for speaker in general_analysis.top20:
+
+#    liste.append(create_swearwordlist_per_personandseason(databyepisode, speaker, cursewordlist))
+
+#general_analysis.safe_output("SwearwordsPerSeason.json", liste)
+
+##################
 
 
-liste = []
-for speaker in general_analysis.top20:
+def create_swearlist_per_season (season_data_dict, curselist, speakerlist) :
 
-    liste.append(create_swearwordlist_per_personandseason(databyepisode, speaker, cursewordlist))
+    data = season_data_dict["data"]
+    swearlist = []
+    season_data = {}
+    season = 1
 
-general_analysis.safe_output("SwearwordsPerSeason.json", liste)
+    while season < 19:
+        for entry in data:
+            akt_season = entry["Season"]
+            currentSpeaker = entry["Character"]
+
+            if akt_season == str(season) and currentSpeaker in speakerlist:
+                for beitrag in entry["Line"]:
+                    text_tokens = general_analysis.tokenize_and_stem(beitrag)
+                    for token in text_tokens:
+                        if token in curselist:
+                            swearlist.append(token)
+
+        season_data["Season " + str(season)] = Counter(swearlist)
+        swearlist = []
+        season = season + 1
+
+    return season_data
+
+
+seasonCursewordliste = [create_swearlist_per_season(dataBySeason, cursewordlist, general_analysis.top20)]
+
+general_analysis.safe_output("SwearwordsPerSeason2.json", seasonCursewordliste)
 
 
