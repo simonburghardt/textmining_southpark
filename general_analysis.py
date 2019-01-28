@@ -5,9 +5,16 @@ from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from collections import Counter
 
+# Diese Datei kreiiert unsere Ausgaben zu unserer generellen Analyse. Unter genereller
+# Analyse verstehen wir Daten übergreifend über alle Season. Dadurch möchten wir eine
+# generelles Verständnis des Korpus erhalten und Fragen beantworten wie:
+# Wer spricht am meisten (absolut)?, Wer schimpft am meisten (absolut)?, Wer hat die höchste Schimpfrate (relativ)?
+
 
 cursejson = "data/cursewords.json"
 databycharacter = "data/dataByCharacter.json"
+
+# Top 20 Charaktere. Diese sind die Charaktere mit den meisten gesprochenen Tokens.
 top20 = ["Cartman", "Stan", "Kyle", "Randy", "Butters", "Mr. Garrison", "Chef", "Mr. Mackey", "Jimmy",
          "Sharon", "Announcer", "Jimbo", "Gerald", "Wendy", "Sheila", "Liane", "Mrs. Garrison",
          "Narrator", "Stephen", "Kenny"]
@@ -20,7 +27,7 @@ def load_json(data_title):
     return ret_dict
 
 
-# Tokenized einen gegebenen Text, kickt Stopwords raus und stemt die Wörter
+# Tokenized einen gegebenen Text. Sonderzeichen werden rausgekickt, Stopwords werden rausgekickt und Wörter werden gestemt
 def tokenize_and_stem(text):
 
     text = text.lower()
@@ -55,7 +62,10 @@ def count_redebeitraege(input_data):
     return sort_dict
 
 
-# Zählt alle Schimpfwörte, die eine Person sagt
+# Zählt alle Schimpfwörte und alle Tokens, die eine Person sagt in allen Seasons. Anschließend wird eine
+# Schimpfwortrate berechnet. (swearwords / tokens) * 100
+# Gibt anschließend die Daten in einem Dictionary zurück.
+# [{ Charakter : { "Tokens gesamt" : Anzahl, "Swearwords said" : Anzahl, "Swearrate per word" : Rate}, etc... }]
 def syndicate_swearing(charcter_data_dict, speaker, curselist):
 
     data = charcter_data_dict["data"]
@@ -65,11 +75,16 @@ def syndicate_swearing(charcter_data_dict, speaker, curselist):
     swear_data = {}
 
     for entry in data:
+        # Es wird abgegleicht, ob der aktuelle Sprecher unser übergebener Speaker ist
         if (entry["Character"][0] == speaker):
             for beitrag in entry["Line"]:
                 text_tokens = tokenize_and_stem(beitrag)
                 for token in text_tokens:
+
+                    # Zählt die gesagten Tokens
                     tokencounter = tokencounter + 1
+
+                    # Gleicht den Token mit der Schimpfwortliste ab und zählt ggf. hoch
                     if token in curselist:
                         counter = counter + 1
 
@@ -82,7 +97,7 @@ def syndicate_swearing(charcter_data_dict, speaker, curselist):
 
 
 # Kreiirt eine Swearword Liste für den übergebenen Speaker und zählt, wie oft er welches
-# Schimpfword gesagt hat
+# Schimpfword gesagt hat.
 def create_swearwordlist_per_person(charcter_data_dict, speaker, curselist):
 
     data = charcter_data_dict["data"]
@@ -102,7 +117,7 @@ def create_swearwordlist_per_person(charcter_data_dict, speaker, curselist):
     return char_data
 
 
-# Kreiiert eine Liste die alle Swearwords enthält
+# Kreiiert eine Liste die alle Swearwords enthält aus dem Cursedictionary enthält
 def create_curse_list():
     curse_data = load_json(cursejson)
     curse_list = []
@@ -134,11 +149,13 @@ def get_cursewords(speaker_list, param, curselist):
     return swearwords_per_speaker
 
 
+# Speichert übergebene Daten in einem JSON File.
 def safe_output(dateiname, output_dictionary):
     with open("output/" + dateiname, 'w') as fp:
         json.dump(output_dictionary, fp, indent=4)
 
 
+# Zählt wie oft Schimpfwörter vorkommen und sortiert diese absteigend.
 def topcurswordsoverall(data):
 
     ret_dict = {}

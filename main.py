@@ -1,9 +1,7 @@
 import csv
-import re
-import operator
 import json
 from collections import Counter
-global header, data_dict, data_list, curseword_dict
+global data_dict, data_list, curseword_dict
 
 csv_file = "data/season1.csv"
 csv_file1 = "data/all-seasons.csv"
@@ -13,19 +11,15 @@ data_list  = []
 curseword_dict = {}
 
 
-
-# Diese Funktion lädt die Daten aus unserer CSV-Datei in eine Liste.
-# Innerhalb der Liste werden Dictionaries für die einzelnen Redebeiträge gespeichert.
-# Beispiel Zeile 1:
+# Diese Funktion lädt die Daten aus unserer CSV-Datei in eine Liste. Innerhalb der Liste werden Dictionaries
+# für die einzelnen Redebeiträge gespeichert. Beispiel Zeile 1:
 # OrderedDict([('Season', '1'), ('Episode', '1'), ('Character', 'Boys'),('Line', "School day, school day,
 # teacher's golden ru...\n")])
 def load_data():
-    # Läd die Datei und speichert den Inhalt in data_dict und die Feldnamen in Header
 
+    # Läd die Datei und speichert den Inhalt in data_dict und die Feldnamen in Header
     with open(csv_file1, 'r+', encoding='utf-8') as f:
         reader = csv.DictReader(f, delimiter=',')
-        header = reader.fieldnames
-
         for row in reader:
             data_list.append(dict(row))
 
@@ -35,6 +29,7 @@ def load_data():
 
 # Löscht Zeilenumbrüche raus und macht Beitrag zu Kleinbuchstaben
 def preprocess(list):
+
     for entry in list:
         current_line = entry["Line"]
         entry["Line"] = current_line[:-1].lower()
@@ -76,8 +71,7 @@ def get_speakers(inp):
 
 
 # Holt sich die kompletten Texte für jeden Sprecher und speichert das in einem Dictionary ab
-# Gibt ein Dictionary zurück mit Speaker und dem kompletten Text
-# {"Cartman" : gesamtertext}
+# Gibt ein Dictionary zurück mit Speaker und dem kompletten Text {"Cartman" : gesamtertext}
 def get_whole_text_per_speaker(inp_dict, speaker):
 
     whole_text_speaker = {}

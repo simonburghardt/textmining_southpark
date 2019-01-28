@@ -4,20 +4,19 @@ import string
 import json
 from bs4 import BeautifulSoup
 
-
 search_url = "https://www.noswearing.com/dictionary/{}"
 
-# Liefert uns das komplette Alphabet als Liste
+# Liefert uns das komplette Alphabet von A-Z als Liste
 alphabet = list(string.ascii_lowercase)
 
 
 # HTML Request auf Dicitonary Seite. Liefert fett gedruckte Tags zurück
 def crawl_sweardict(link, buchstabe):
+
     result = requests.get(link.format(buchstabe))
     html = result.content.decode("utf-8")
     soup = BeautifulSoup(html, features="html.parser")
     chunk = soup.select('b')
-
     return chunk
 
 
@@ -33,7 +32,6 @@ def filter_list(chunk):
     swearword_list = []
 
     for entry in chunk:
-
         # Filtert HTML Tags raus
         p = re.compile(r'<.*?>')
         entry = p.sub('', str(entry))
@@ -50,6 +48,7 @@ def filter_list(chunk):
         try:
             if entry[1]:
                 True
+
         except:
             continue
 
@@ -72,8 +71,7 @@ def crawl_all_swear_words():
 
     swearwords_per_buchstabe = {}
 
-    # Crawlt für jeden Buchstaben die Swearword-Seite und speichert die generierte Liste in einem
-    # Dictionary ab
+    # Crawlt für jeden Buchstaben die Swearword-Seite und speichert die generierte Liste in einem Dictionary ab
     # Beispiel: { "a" : ["asshole", "asscow"], "b" : ["bitch", "blowjob"] }
     for buchstabe in alphabet:
         swearwords_per_buchstabe[buchstabe] = filter_list(crawl_sweardict(search_url, buchstabe))

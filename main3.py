@@ -1,5 +1,4 @@
 import json
-
 import pandas as pd
 
 df = pd.read_csv('data/all-seasons.csv')
@@ -58,7 +57,6 @@ with open('data/dataBySeason.json', 'w') as fp:
 ###########################
 
 dict_groupedByCharacter = []
-
 
 def get_nested_rec2(key, grp):
     rec = {'Character': key[0]}
