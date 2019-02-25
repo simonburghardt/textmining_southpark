@@ -13,7 +13,7 @@ def get_nested_rec(key, grp):
         rec[field] = list(grp[field].unique())
     return rec
 
-# Funktion sagt wie die Daten groupert werden sollen
+# Funktion sagt wie die Daten groupert werden sollen und gibt ein Dict zurück, das nach Episoden groupiert ist
 def get_formatted_corpus():
     for key, grp in df.groupby(['Season', 'Episode', 'Character']):
         rec = get_nested_rec(key, grp)
@@ -41,7 +41,7 @@ def get_nested_rec1(key, grp):
         rec[field] = list(grp[field].unique())
     return rec
 
-# Funktion sagt wie die Daten groupert werden sollen
+# Funktion sagt wie die Daten groupert werden sollen und gibt ein Dict zurück, das nach Season groupiert ist
 def get_formatted_corpus1():
     for key, grp in df.groupby(['Season', 'Character']):
         rec = get_nested_rec1(key, grp)
@@ -68,7 +68,7 @@ def get_nested_rec2(key, grp):
         rec[field] = list(grp[field].unique())
     return rec
 
-# Funktion sagt wie die Daten groupert werden sollen
+# Funktion sagt wie die Daten groupert werden sollen und gibt ein Dict zurück, das nach Charackter groupiert ist
 def get_formatted_corpus2():
     for key, grp in df.groupby(['Character']):
         rec = get_nested_rec2(key, grp)
