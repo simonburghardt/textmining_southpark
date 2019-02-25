@@ -1,9 +1,12 @@
 from bs4 import BeautifulSoup
 import requests
 import re
-import pandas as pd
 
-
+# crawlt über die Webpages uns sucht nach dem AverageScore
+# Problem war, dass es bei Rottentomatoe nicht für jede Season einen offiziellen Score gab
+# Es gab immer einen USerScore, aber wir haben uns schwer getan diesen zu filtern,
+# da die HTML Struktur sehr redundant ist und das spezialle Tag mit dem Score Inhalt zu bekommmen,
+# sich als zu kompliziert für uns herausgestellt hat
 page = requests.get("https://www.rottentomatoes.com/tv/south_park/s22")
 soup = BeautifulSoup(page.content, 'html.parser')
 clean_html = soup.prettify()
