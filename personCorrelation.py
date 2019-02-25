@@ -21,5 +21,5 @@ for a in schimpfwortratePerSeason:
 
 # Die Funktion rechnet die Korrelation zwischen der Schimpwortrate pro Season zu der UserRating aus
 print(pearsonr(swearRateList, ratingList))
-
+# Output Ergebnis (-0.41786032738615714, 0.08443161623042045)
 
